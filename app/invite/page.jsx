@@ -2,7 +2,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Hero from "@/app/components/Hero";
-import MapSection from "@/app/components/MapSection";
+// import MapSection from "@/app/components/MapSection";
 import Footer from "@/app/components/Footer";
 import BackgroundParticles from "@/app/components/BackgroundParticles";
 import MusicPlayer from "@/app/components/MusicPlayer";
@@ -45,7 +45,7 @@ export default function InvitePage() {
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <MapSection />
+            {/* <MapSection /> */}
             <div className="mt-4 flex gap-3">
               <a href={`https://maps.google.com/?q=${process.env.NEXT_PUBLIC_EVENT_LAT},${process.env.NEXT_PUBLIC_EVENT_LNG}`} className="px-4 py-2 bg-blue-600 text-white rounded">Mở chỉ đường</a>
               <a href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Lễ tốt nghiệp của Minh 🎓")}&dates=${formatGoogleDates(eventDate)}`} target="_blank" className="px-4 py-2 bg-gray-800 text-white rounded">Thêm vào Google Calendar</a>
