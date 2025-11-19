@@ -14,19 +14,39 @@ export default function Countdown({ targetISO }: CountdownProps) {
     return () => clearInterval(t);
   }, [target]);
 
-  if (diff <= 0) return <div className="text-xl font-semibold">Đang diễn ra 🎉</div>;
+  // Nếu đã đến giờ → hiển thị “Đang diễn ra”
+  if (diff <= 0) {
+    return (
+      <div className="text-center">
+        <div className="text-lg font-semibold mb-2">
+          Sự kiện diễn ra vào lúc <span className="font-bold">11:20 – 12:20, 22/11/2025</span>
+        </div>
+        <div className="text-xl font-bold">Đang diễn ra 🎉</div>
+      </div>
+    );
+  }
 
+  // Tính thời gian còn lại
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const mins = Math.floor((diff / (1000 * 60)) % 60);
   const secs = Math.floor((diff / 1000) % 60);
 
   return (
-    <div className="flex gap-3 justify-center text-center mt-4">
-      <TimeBlock label="Ngày" value={days} />
-      <TimeBlock label="Giờ" value={hours} />
-      <TimeBlock label="Phút" value={mins} />
-      <TimeBlock label="Giây" value={secs} />
+    <div className="text-center">
+      {/* Phần hiển thị ngày giờ sự kiện */}
+      <div className="text-lg font-semibold mb-3">
+        Sự kiện diễn ra vào lúc{" "}
+        <span className="font-bold">11:20 – 12:20, 22/11/2025</span>
+      </div>
+
+      {/* Đồng hồ đếm ngược */}
+      <div className="flex gap-3 justify-center text-center">
+        <TimeBlock label="Ngày" value={days} />
+        <TimeBlock label="Giờ" value={hours} />
+        <TimeBlock label="Phút" value={mins} />
+        <TimeBlock label="Giây" value={secs} />
+      </div>
     </div>
   );
 }
