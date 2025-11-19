@@ -20,7 +20,7 @@
     "next": "16.0.2",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "react-map-gl": "^8.1.0",
+    "react-map-gl": "^7.0.18",
     "three": "^0.181.1",
     "use-sound": "^5.0.0"
   },
