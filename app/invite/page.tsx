@@ -34,7 +34,9 @@ export default function InvitePage() {
       .catch(() => setGuest({ name: "Bạn thân mến" }));
   }, []);
 
-  const eventDate = process.env.NEXT_PUBLIC_EVENT_DATE || "2025-11-25T09:00:00+07:00";
+  const CHECKIN_START = "2025-11-22T11:20:00+07:00";
+  const CEREMONY_START = "2025-11-22T11:40:00+07:00";
+  const CEREMONY_END = "2025-11-22T12:20:00+07:00";
   const musicSrc = "/assets/music.mp3";
 
   return (
@@ -43,7 +45,11 @@ export default function InvitePage() {
       <MusicPlayer src={musicSrc} />
       <div className="max-w-4xl mx-auto p-6">
         <Hero guest={guest} />
-        <Countdown targetISO={eventDate} />
+        <Countdown
+          checkInISO={CHECKIN_START}
+          ceremonyStartISO={CEREMONY_START}
+          ceremonyEndISO={CEREMONY_END}
+        />
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -55,7 +61,9 @@ export default function InvitePage() {
                 Mở chỉ đường
               </a>
               <a
-                href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Lễ tốt nghiệp của Minh 🎓")}&dates=${formatGoogleDates(eventDate)}`}
+                href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+                  "Lễ tốt nghiệp của Minh Nhật🎓"
+                )}&dates=${formatGoogleDates(CHECKIN_START)}`}
                 target="_blank"
                 className="px-4 py-2 bg-gray-800 text-white rounded"
               >
@@ -85,6 +93,5 @@ function formatGoogleDates(iso: string) {
   const mi = String(d.getUTCMinutes()).padStart(2, "0");
   const ss = String(d.getUTCSeconds()).padStart(2, "0");
   const endH = String(Number(hh) + 3).padStart(2, "0");
-
   return `${y}${mm}${dd}T${hh}${mi}${ss}Z/${y}${mm}${dd}T${endH}${mi}${ss}Z`;
 }
