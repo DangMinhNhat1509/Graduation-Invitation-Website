@@ -3,7 +3,15 @@ import { motion } from "framer-motion";
 import Lottie from "lottie-react";
 import sparkle from "@/assets/sparkle.json";
 
-export default function Hero({ guest }) {
+interface Guest {
+  name?: string;
+}
+
+interface HeroProps {
+  guest?: Guest | null;
+}
+
+export default function Hero({ guest }: HeroProps) {
   return (
     <div className="text-center py-10">
       <motion.h1

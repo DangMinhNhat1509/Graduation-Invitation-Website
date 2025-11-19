@@ -1,8 +1,11 @@
-// components/Countdown.jsx
 "use client";
 import { useEffect, useState } from "react";
 
-export default function Countdown({ targetISO }) {
+interface CountdownProps {
+  targetISO: string;
+}
+
+export default function Countdown({ targetISO }: CountdownProps) {
   const target = new Date(targetISO).getTime();
   const [diff, setDiff] = useState(target - Date.now());
 
@@ -28,7 +31,12 @@ export default function Countdown({ targetISO }) {
   );
 }
 
-function TimeBlock({ label, value }) {
+interface TimeBlockProps {
+  label: string;
+  value: number;
+}
+
+function TimeBlock({ label, value }: TimeBlockProps) {
   return (
     <div className="bg-white/80 px-4 py-2 rounded-lg shadow">
       <div className="text-2xl font-bold">{String(value).padStart(2, "0")}</div>

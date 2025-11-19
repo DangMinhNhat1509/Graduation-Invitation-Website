@@ -1,16 +1,26 @@
-// components/BackgroundParticles.jsx
 "use client";
 import { useEffect, useRef } from "react";
 
+interface Particle {
+  x: number;
+  y: number;
+  r: number;
+  vx: number;
+  vy: number;
+  alpha: number;
+}
+
 export default function BackgroundParticles() {
-  const ref = useRef(null);
+  const ref = useRef<HTMLCanvasElement | null>(null); // <--- kiểu cho canvas
+  let animationId: number;
+  const particles: Particle[] = [];
 
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    let animationId;
-    const particles = [];
+    if (!ctx) return; // bảo vệ ctx không null
+
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
