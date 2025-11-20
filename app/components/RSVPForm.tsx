@@ -57,7 +57,7 @@ export default function RSVPForm({ guestId, guestName }: RSVPFormProps) {
   if (done)
     return (
       <div className="p-4 bg-green-50 rounded-md text-green-800">
-        🎉 Cảm ơn bạn! Chúng mình đã nhận RSVP của bạn.
+        🎉 Cảm ơn bạn! Mình đã nhận RSVP của bạn.
       </div>
     );
 
