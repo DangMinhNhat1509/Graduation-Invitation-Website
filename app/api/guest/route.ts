@@ -4,15 +4,12 @@ import { doc, getDoc } from "firebase/firestore";
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const id = searchParams.get("id"); // hoặc "to" cũng được
 
     if (!id) {
       return new Response(
         JSON.stringify({ error: "Missing 'id' query param" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        }
+        { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
 
@@ -22,29 +19,19 @@ export async function GET(req: Request) {
     if (!snapshot.exists()) {
       return new Response(
         JSON.stringify({ error: "Guest not found" }),
-        {
-          status: 404,
-          headers: { "Content-Type": "application/json" },
-        }
+        { status: 404, headers: { "Content-Type": "application/json" } }
       );
     }
 
     return new Response(
       JSON.stringify({ id, ...snapshot.data() }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
+      { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
-
-    return new Response(
-      JSON.stringify({ error: message }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return new Response(JSON.stringify({ error: message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

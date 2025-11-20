@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import Hero from "@/app/components/Hero";
 import Footer from "@/app/components/Footer";
@@ -11,6 +12,7 @@ import confetti from "canvas-confetti";
 
 interface Guest {
   name?: string;
+  message?: string;
   [key: string]: any;
 }
 
@@ -31,7 +33,7 @@ export default function InvitePage() {
         setGuest(data);
         confetti({ particleCount: 80, spread: 70 });
       })
-      .catch(() => setGuest({ name: "Bạn thân mến" }));
+      .catch(() => setGuest({ name: "Bạn thân mến", message: "Chúng mình mong được gặp bạn tại lễ tốt nghiệp!" }));
   }, []);
 
   const CHECKIN_START = "2025-11-22T11:20:00+07:00";
@@ -43,14 +45,19 @@ export default function InvitePage() {
     <div className="min-h-screen relative">
       <BackgroundParticles />
       <MusicPlayer src={musicSrc} />
+
       <div className="max-w-4xl mx-auto p-6">
+        {/* Hero hiển thị tên và lời mời */}
         <Hero guest={guest} />
+
+        {/* Countdown */}
         <Countdown
           checkInISO={CHECKIN_START}
           ceremonyStartISO={CEREMONY_START}
           ceremonyEndISO={CEREMONY_END}
         />
 
+        {/* Các liên kết & RSVP */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <div className="mt-4 flex gap-3">
@@ -74,6 +81,7 @@ export default function InvitePage() {
 
           <div>
             <ThreeScene />
+            {/* RSVPForm nhận guestId + guestName từ Firebase */}
             <RSVPForm guestId={guestId ?? ""} guestName={guest?.name ?? ""} />
           </div>
         </div>
@@ -92,6 +100,6 @@ function formatGoogleDates(iso: string) {
   const hh = String(d.getUTCHours()).padStart(2, "0");
   const mi = String(d.getUTCMinutes()).padStart(2, "0");
   const ss = String(d.getUTCSeconds()).padStart(2, "0");
-  const endH = String(Number(hh) + 3).padStart(2, "0");
+  const endH = String(Number(hh) + 3).padStart(2, "0"); // kết thúc 3h sau
   return `${y}${mm}${dd}T${hh}${mi}${ss}Z/${y}${mm}${dd}T${endH}${mi}${ss}Z`;
 }
