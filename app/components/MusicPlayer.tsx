@@ -2,13 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 
-interface MusicPlayerProps {
-  src: string;
-}
-
-export default function MusicPlayer({ src }: MusicPlayerProps) {
+export default function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [playing, setPlaying] = useState<boolean>(true);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -16,16 +12,17 @@ export default function MusicPlayer({ src }: MusicPlayerProps) {
 
     const tryPlay = async () => {
       try {
-        await audio.play();
+        await audio.play(); // cố gắng auto play khi component mount
         setPlaying(true);
-      } catch (e) {
-        setPlaying(false);
+      } catch {
+        setPlaying(false); // nếu trình duyệt chặn autoplay
       }
     };
 
     tryPlay();
+
     return () => {
-      audio.pause();
+      audio.pause(); // dừng nhạc khi unmount
     };
   }, []);
 
@@ -44,12 +41,12 @@ export default function MusicPlayer({ src }: MusicPlayerProps) {
 
   return (
     <div className="fixed top-4 right-4 z-50">
-      <audio ref={audioRef} src={src} loop />
+      <audio ref={audioRef} src="/music/nhacnen.mp3" loop />
       <button
         onClick={toggle}
         className="px-3 py-2 bg-white/90 backdrop-blur rounded-full shadow-md"
       >
-        {playing ? "🔊 Tắt nhạc" : "🔈 Bật nhạc"}
+        {playing ? " 🔊 " : " 🔈 "}
       </button>
     </div>
   );

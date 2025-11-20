@@ -8,21 +8,29 @@ interface CountdownProps {
 }
 
 export default function Countdown({ checkInISO, ceremonyStartISO, ceremonyEndISO }: CountdownProps) {
+  const [mounted, setMounted] = useState(false);
+  const [diff, setDiff] = useState(0);
+
   const CHECKIN_START = new Date(checkInISO);
   const CEREMONY_START = new Date(ceremonyStartISO);
   const CEREMONY_END = new Date(ceremonyEndISO);
 
-  const [diff, setDiff] = useState(CHECKIN_START.getTime() - Date.now());
-
   useEffect(() => {
-    const timer = setInterval(() => {
-      setDiff(CHECKIN_START.getTime() - Date.now());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [CHECKIN_START]);
+    setMounted(true); // chỉ render trên client
 
-  const isEventLive = Date.now() >= CEREMONY_START.getTime() && Date.now() <= CEREMONY_END.getTime();
-  const isAfterEvent = Date.now() > CEREMONY_END.getTime();
+    const checkinTime = new Date(checkInISO).getTime(); // cố định trong effect
+    const timer = setInterval(() => {
+      setDiff(checkinTime - Date.now());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [checkInISO]); // dependency là string, không phải object Date
+
+  if (!mounted) return null; // tránh SSR mismatch
+
+  const now = Date.now();
+  const isEventLive = now >= CEREMONY_START.getTime() && now <= CEREMONY_END.getTime();
+  const isAfterEvent = now > CEREMONY_END.getTime();
 
   if (isAfterEvent) {
     return (
