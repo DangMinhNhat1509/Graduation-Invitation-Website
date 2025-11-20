@@ -1,9 +1,9 @@
 "use client";
+
 import { motion } from "framer-motion";
 import Lottie from "lottie-react";
 import sparkle from "@/assets/sparkle.json";
-// import hình bạn đã tách nền
-import myFace from "@/assets/my-face.png.png";
+import myFace from "@/assets/my-face.png.png"; // ảnh đã tách nền
 
 interface Guest {
   name?: string;
@@ -17,6 +17,7 @@ interface HeroProps {
 export default function Hero({ guest }: HeroProps) {
   return (
     <div className="text-center py-10">
+      {/* Tiêu đề */}
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -26,18 +27,22 @@ export default function Hero({ guest }: HeroProps) {
       </motion.h1>
 
       {/* Hộp relative chứa hình + Lottie */}
-      <div className="relative w-48 h-48 mx-auto my-6">
-        {/* Hình mặt bạn */}
+      <div className="relative mx-auto my-6 w-4/5 sm:w-1/3 lg:w-1/5">
+        {/* Hình mặt – KHÔNG KHUNG + KHÔNG SHADOW */}
         <img
-          src={myFace.src} // dùng import trực tiếp
+          src={myFace.src}
           alt="Mặt tôi"
-          className="w-40 h-40 rounded-full mx-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-lg border-4 border-white"
+          className="w-full h-auto mx-auto"
         />
 
-        {/* Lottie sparkle phía sau hình */}
-        <Lottie animationData={sparkle} className="w-48 h-48 absolute top-0 left-0" />
+        {/* Lottie sparkle xung quanh */}
+        <Lottie
+          animationData={sparkle}
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none"
+        />
       </div>
 
+      {/* Lời chào và lời mời */}
       <p className="mt-4 text-xl">
         Xin chào <strong>{guest?.name || "Bạn thân mến"}</strong>
       </p>
