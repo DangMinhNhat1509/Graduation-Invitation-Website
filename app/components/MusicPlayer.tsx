@@ -5,26 +5,34 @@ import { useEffect, useRef, useState } from "react";
 export default function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
 
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    const handleInteraction = () => {
+      if (userInteracted) return;
 
-    const tryPlay = async () => {
-      try {
-        await audio.play(); // cố gắng auto play khi component mount
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      audio.play().then(() => {
         setPlaying(true);
-      } catch {
-        setPlaying(false); // nếu trình duyệt chặn autoplay
-      }
+        setUserInteracted(true);
+      }).catch(() => {
+        setPlaying(false);
+      });
     };
 
-    tryPlay();
+    // Lắng nghe lần click, touch hoặc keydown đầu tiên trên document
+    document.addEventListener("click", handleInteraction, { once: true });
+    document.addEventListener("touchstart", handleInteraction, { once: true });
+    document.addEventListener("keydown", handleInteraction, { once: true });
 
     return () => {
-      audio.pause(); // dừng nhạc khi unmount
+      document.removeEventListener("click", handleInteraction);
+      document.removeEventListener("touchstart", handleInteraction);
+      document.removeEventListener("keydown", handleInteraction);
     };
-  }, []);
+  }, [userInteracted]);
 
   const toggle = () => {
     const audio = audioRef.current;
@@ -34,8 +42,7 @@ export default function MusicPlayer() {
       audio.pause();
       setPlaying(false);
     } else {
-      audio.play();
-      setPlaying(true);
+      audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
     }
   };
 
