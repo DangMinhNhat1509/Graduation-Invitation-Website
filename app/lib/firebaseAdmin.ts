@@ -1,7 +1,7 @@
 import admin from "firebase-admin";
 
 if (!admin.apps.length) {
-  const privateKey = process.env.FB_PRIVATE_KEY;
+  const privateKey = process.env.FB_PRIVATE_KEY?.replace(/\\n/g, "\n"); // <--- quan trọng
 
   admin.initializeApp({
     credential: admin.credential.cert({
